@@ -114,6 +114,7 @@ typedef struct {
 } Instruction;
 
 void nop_handler(CPU* cpu, uint16_t curr_pc, void* value);
+
 void lxi_b_d16_handler(CPU* cpu, uint16_t curr_pc, void* value);
 void stax_b_handler(CPU* cpu, uint16_t curr_pc, void* value);
 void inx_b_handler(CPU* cpu, uint16_t curr_pc, void* value);
@@ -124,7 +125,51 @@ void rlc_handler(CPU* cpu, uint16_t curr_pc, void* value);
 void dad_b_handler(CPU* cpu, uint16_t curr_pc, void* value);
 void ldax_b_handler(CPU* cpu, uint16_t curr_pc, void* value);
 void dcx_b_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void inr_c_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void dcr_c_handler(CPU* cpu, uint16_t curr_pc, void* value);
 void mvi_c_d8_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void rrc_handler(CPU* cpu, uint16_t curr_pc, void* value);
+
+void lxi_d_d16_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void stax_d_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void inx_d_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void inr_d_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void dcr_d_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void mvi_d_d8_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void ral_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void dad_d_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void ldax_d_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void dcx_d_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void inr_e_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void dcr_e_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void mvi_e_d8_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void rar_handler(CPU* cpu, uint16_t curr_pc, void* value);
+
+void lxi_h_d16_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void shld_a16_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void inx_h_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void inr_h_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void dcr_h_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void mvi_h_d8_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void daa_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void dad_h_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void lhld_a16_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void dcx_h_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void inr_l_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void dcr_l_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void mvi_l_d8_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void cma_handler(CPU* cpu, uint16_t curr_pc, void* value);
+
+void lxi_sp_d16_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void sta_a16_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void inx_sp_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void inr_m_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void dcr_m_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void mvi_m_d8_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void stc_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void dad_sp_handler(CPU* cpu, uint16_t curr_pc, void* value);
+void lda_a16_handler(CPU* cpu, uint16_t curr_pc, void* value);
+
 void hlt_handler(CPU* cpu, uint16_t curr_pc, void* value);
 void mov_a_b_handler(CPU* cpu, uint16_t curr_pc, void* value);
 void add_b_handler(CPU* cpu, uint16_t curr_pc, void* value);
@@ -145,23 +190,63 @@ const Instruction instructions[256] = {
     [0x09] = { 0x09, 1, 10, dad_b_handler }, /* DAD B */
     [0x0A] = { 0x0A, 1,  7, ldax_b_handler }, /* LDAX B */
     [0x0B] = { 0x0B, 1,  5, dcx_b_handler }, /* DCX B */
-    [0x0C] = { 0x0C, 1,  5, NULL }, /* INR C */
-    [0x0D] = { 0x0D, 1,  5, NULL }, /* DCR C */
+    [0x0C] = { 0x0C, 1,  5, inr_c_handler }, /* INR C */
+    [0x0D] = { 0x0D, 1,  5, dcr_c_handler }, /* DCR C */
     [0x0E] = { 0x0E, 2,  7, mvi_c_d8_handler }, /* MVI C,d8 */
-    [0x0F] = { 0x0F, 1,  4, NULL }, /* RRC */
+    [0x0F] = { 0x0F, 1,  4, rrc_handler }, /* RRC */
+
     [0x10] = { 0x10, 1,  4, nop_handler }, /* NOP */
+    [0x11] = { 0x11, 3, 10, lxi_d_d16_handler }, /* LXI D,d16 */
+    [0x12] = { 0x12, 1,  7, stax_d_handler }, /* STAX D */
+    [0x13] = { 0x13, 1,  5, inx_d_handler }, /* INX D */
+    [0x14] = { 0x14, 1,  5, inr_d_handler }, /* INR D */
+    [0x15] = { 0x15, 1,  5, dcr_d_handler }, /* DCR D */
+    [0x16] = { 0x16, 2,  7, mvi_d_d8_handler }, /* MVI D,d8 */
+    [0x17] = { 0x17, 1,  4, ral_handler }, /* RAL */
     [0x18] = { 0x18, 1,  4, nop_handler }, /* NOP */
+    [0x19] = { 0x19, 1, 10, dad_d_handler }, /* DAD D */
+    [0x1A] = { 0x1A, 1,  7, ldax_d_handler }, /* LDAX D */
+    [0x1B] = { 0x1B, 1,  5, dcx_d_handler }, /* DCX D */
+    [0x1C] = { 0x1C, 1,  5, inr_e_handler }, /* INR E */
+    [0x1D] = { 0x1D, 1,  5, dcr_e_handler }, /* DCR E */
+    [0x1E] = { 0x1E, 2,  7, mvi_e_d8_handler }, /* MVI E,d8 */
+    [0x1F] = { 0x1F, 1,  4, rar_handler }, /* RAR */
+
     [0x20] = { 0x20, 1,  4, nop_handler }, /* NOP */
+    [0x21] = { 0x21, 3, 10, lxi_h_d16_handler }, /* LXI H,d16 */
+    [0x22] = { 0x22, 3, 16, shld_a16_handler }, /* SHLD a16 */
+    [0x23] = { 0x23, 1,  5, inx_h_handler }, /* INX H */
+    [0x24] = { 0x24, 1,  5, inr_h_handler }, /* INR H */
+    [0x25] = { 0x25, 1,  5, dcr_h_handler }, /* DCR H */
+    [0x26] = { 0x26, 2,  7, mvi_h_d8_handler }, /* MVI H,d8 */
+    [0x27] = { 0x27, 1,  4, daa_handler }, /* DAA */
     [0x28] = { 0x28, 1,  4, nop_handler }, /* NOP */
+    [0x29] = { 0x29, 1, 10, dad_h_handler }, /* DAD H */
+    [0x2A] = { 0x2A, 3, 16, lhld_a16_handler }, /* LHLD a16 */
+    [0x2B] = { 0x2B, 1,  5, dcx_h_handler }, /* DCX H */
+    [0x2C] = { 0x2C, 1,  5, inr_l_handler }, /* INR L */
+    [0x2D] = { 0x2D, 1,  5, dcr_l_handler }, /* DCR L */
+    [0x2E] = { 0x2E, 2,  7, mvi_l_d8_handler }, /* MVI L,d8 */
+    [0x2F] = { 0x2F, 1,  4, cma_handler }, /* CMA */
+
     [0x30] = { 0x30, 1,  4, nop_handler }, /* NOP */
+    [0x31] = { 0x31, 3, 10, lxi_sp_d16_handler }, /* LXI SP,d16 */
+    [0x32] = { 0x32, 3, 13, sta_a16_handler }, /* STA a16 */
+    [0x33] = { 0x33, 1,  5, inx_sp_handler }, /* INX SP */
+    [0x34] = { 0x34, 1, 10, inr_m_handler }, /* INR M */
+    [0x35] = { 0x35, 1, 10, dcr_m_handler }, /* DCR M */
+    [0x36] = { 0x36, 2, 10, mvi_m_d8_handler }, /* MVI M,d8 */
+    [0x37] = { 0x37, 1,  4, stc_handler }, /* STC */
     [0x38] = { 0x38, 1,  4, nop_handler }, /* NOP */
+    [0x39] = { 0x39, 1, 10, dad_sp_handler }, /* DAD SP */
+    [0x3A] = { 0x3A, 3, 13, lda_a16_handler }, /* LDA a16 */
+
     [0x76] = { 0x76, 1,  7, hlt_handler }, /* HLT */
     [0x78] = { 0x78, 1,  5, mov_a_b_handler }, /* MOV A,B */
     [0x80] = { 0x80, 1,  4, add_b_handler }, /* ADD B */
     [0xC7] = { 0xC7, 1, 11, rst_0_handler }, /* RST 0 */
     [0xC9] = { 0xC9, 1, 10, ret_handler }, /* RET */
     [0xCD] = { 0xCD, 3, 17, call_addr_handler }, /* CALL addr */
-    /* ... Fill in the rest of the instructions ... */
 };
 
 void bus_allocate_memory(Bus* bus, size_t capacity) {
@@ -317,6 +402,7 @@ void lxi_b_d16_handler(CPU* cpu, uint16_t curr_pc, void* value) {
     const uint8_t d8_low = cpu_read_memory(cpu, curr_pc + 1); // Read the lower byte
     const uint8_t d8_high = cpu_read_memory(cpu, curr_pc + 2); // Read the higher byte
     const uint16_t d16 = MAKE_WORD(d8_high, d8_low); // Combine to form the 16-bit value
+
     cpu->B.value = HIGH_BYTE(d16); // Move the higher byte into register B
     cpu->C.value = LOW_BYTE(d16);  // Move the lower byte into register C
 }
@@ -417,11 +503,461 @@ void dcx_b_handler(CPU* cpu, uint16_t curr_pc, void* value) {
     cpu->C.value = LOW_BYTE(bc);  // Update register C with the new lower byte
 }
 
+void inr_c_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    const uint8_t result = (cpu->C.value + 1) & 0xFF; // Increment C and wrap around at 8 bits
+
+    cpu->flags.f.auxiliary_carry = ((cpu->C.value & 0x0F) + 1) > 0x0F ? 1 : 0; // Set auxiliary carry flag
+    cpu->C.value = result; // Store the result back in C
+    cpu->flags.f.sign = (result & 0x80) ? 1 : 0; // Set sign flag if the result is negative
+    cpu->flags.f.zero = (result == 0) ? 1 : 0; // Set zero flag if the result is zero
+    cpu->flags.f.parity = !(POPCNT(result) & 1); // Set parity flag based on the result
+    /* Note: INR does not affect the carry flag */
+}
+
+void dcr_c_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    const uint8_t result = (cpu->C.value - 1) & 0xFF; // Decrement C and wrap around at 8 bits
+
+    cpu->flags.f.auxiliary_carry = ((cpu->C.value & 0x0F) == 0) ? 1 : 0; // Set auxiliary carry flag if borrow from bit 4
+    cpu->C.value = result; // Store the result back in C
+    cpu->flags.f.sign = (result & 0x80) ? 1 : 0; // Set sign flag if the result is negative
+    cpu->flags.f.zero = (result == 0) ? 1 : 0; // Set zero flag if the result is zero
+    cpu->flags.f.parity = !(POPCNT(result) & 1); // Set parity flag based on the result
+    /* Note: DCR does not affect the carry flag */
+}
+
 void mvi_c_d8_handler(CPU* cpu, uint16_t curr_pc, void* value) {
     UNUSED_PARAM(value);
 
     const uint8_t d8 = cpu_read_memory(cpu, curr_pc + 1); // Read the immediate value
     cpu->C.value = d8; // Move the value into register C
+}
+
+void rrc_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    const uint8_t lsb = cpu->A.value & 0x01; // Get the least significant bit
+
+    cpu->A.value = ((cpu->A.value >> 1) | (lsb << 7)) & 0xFF; // Rotate right and wrap around
+    cpu->flags.f.carry = lsb; // Set the carry flag to the original LSB
+}
+
+void lxi_d_d16_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(value);
+
+    const uint8_t d8_low = cpu_read_memory(cpu, curr_pc + 1); // Read the lower byte
+    const uint8_t d8_high = cpu_read_memory(cpu, curr_pc + 2); // Read the higher byte
+    const uint16_t d16 = MAKE_WORD(d8_high, d8_low); // Combine to form the 16-bit value
+
+    cpu->D.value = HIGH_BYTE(d16); // Move the higher byte into register D
+    cpu->E.value = LOW_BYTE(d16);  // Move the lower byte into register E
+}
+
+void stax_d_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    const uint16_t addr = MAKE_WORD(cpu->D.value, cpu->E.value); // Get the address from DE
+    cpu_write_memory(cpu, addr, cpu->A.value); // Store the value of A at the address in DE
+}
+
+void inx_d_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    uint16_t de = MAKE_WORD(cpu->D.value, cpu->E.value); // Get the current value of DE
+    de = (de + 1) & 0xFFFF; // Increment DE and wrap around at 16 bits
+
+    cpu->D.value = HIGH_BYTE(de); // Update register D with the new higher byte
+    cpu->E.value = LOW_BYTE(de);  // Update register E with the new lower byte
+}
+
+void inr_d_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    const uint8_t result = (cpu->D.value + 1) & 0xFF; // Increment D and wrap around at 8 bits
+    
+    cpu->flags.f.auxiliary_carry = ((cpu->D.value & 0x0F) + 1) > 0x0F ? 1 : 0; // Set auxiliary carry flag
+    cpu->D.value = result; // Store the result back in D
+    cpu->flags.f.sign = (result & 0x80) ? 1 : 0; // Set sign flag if the result is negative
+    cpu->flags.f.zero = (result == 0) ? 1 : 0; // Set zero flag if the result is zero
+    cpu->flags.f.parity = !(POPCNT(result) & 1); // Set parity flag based on the result
+    /* Note: INR does not affect the carry flag */
+}
+
+void dcr_d_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    const uint8_t result = (cpu->D.value - 1) & 0xFF; // Decrement D and wrap around at 8 bits
+
+    cpu->flags.f.auxiliary_carry = ((cpu->D.value & 0x0F) == 0) ? 1 : 0; // Set auxiliary carry flag if borrow from bit 4
+    cpu->D.value = result; // Store the result back in D
+    cpu->flags.f.sign = (result & 0x80) ? 1 : 0; // Set sign flag if the result is negative
+    cpu->flags.f.zero = (result == 0) ? 1 : 0; // Set zero flag if the result is zero
+    cpu->flags.f.parity = !(POPCNT(result) & 1); // Set parity flag based on the result
+    /* Note: DCR does not affect the carry flag */
+}
+
+void mvi_d_d8_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(value);
+
+    const uint8_t d8 = cpu_read_memory(cpu, curr_pc + 1); // Read the immediate value
+    cpu->D.value = d8; // Move the value into register D
+}
+
+void ral_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    const uint8_t msb = (cpu->A.value & 0x80) >> 7; // Get the most significant bit
+    const uint8_t carry_in = cpu->flags.f.carry; // Get the current carry flag
+
+    cpu->A.value = ((cpu->A.value << 1) | carry_in) & 0xFF; // Rotate left and wrap around
+    cpu->flags.f.carry = msb; // Set the carry flag to the original MSB
+}
+
+void dad_d_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    uint32_t hl = MAKE_WORD(cpu->H.value, cpu->L.value); // Get the current value of HL
+    uint32_t de = MAKE_WORD(cpu->D.value, cpu->E.value); // Get the current value of DE
+    const uint32_t result = hl + de; // Add DE to HL
+
+    cpu->H.value = HIGH_BYTE(result); // Update register H with the new higher byte
+    cpu->L.value = LOW_BYTE(result);  // Update register L with the new lower byte
+    cpu->flags.f.carry = (result > 0xFFFF) ? 1 : 0; // Set carry flag if result exceeds 16 bits
+}
+
+void ldax_d_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    const uint16_t addr = MAKE_WORD(cpu->D.value, cpu->E.value); // Get the address from DE
+    cpu->A.value = cpu_read_memory(cpu, addr); // Load the value at the address in DE into A
+}
+
+void dcx_d_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+ 
+    uint16_t de = MAKE_WORD(cpu->D.value, cpu->E.value); // Get the current value of DE
+    de = (de - 1) & 0xFFFF; // Decrement DE and wrap around at 16 bits
+    
+    cpu->D.value = HIGH_BYTE(de); // Update register D with the new higher byte
+    cpu->E.value = LOW_BYTE(de);  // Update register E with the new lower byte
+}
+
+void inr_e_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    const uint8_t result = (cpu->E.value + 1) & 0xFF; // Increment E and wrap around at 8 bits
+    
+    cpu->flags.f.auxiliary_carry = ((cpu->E.value & 0x0F) + 1) > 0x0F ? 1 : 0; // Set auxiliary carry flag
+    cpu->E.value = result; // Store the result back in E
+    cpu->flags.f.sign = (result & 0x80) ? 1 : 0; // Set sign flag if the result is negative
+    cpu->flags.f.zero = (result == 0) ? 1 : 0; // Set zero flag if the result is zero
+    cpu->flags.f.parity = !(POPCNT(result) & 1); // Set parity flag based on the result
+    /* Note: INR does not affect the carry flag */
+}
+
+void dcr_e_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    const uint8_t result = (cpu->E.value - 1) & 0xFF; // Decrement E and wrap around at 8 bits
+
+    cpu->flags.f.auxiliary_carry = ((cpu->E.value & 0x0F) == 0) ? 1 : 0; // Set auxiliary carry flag if borrow from bit 4
+    cpu->E.value = result; // Store the result back in E
+    cpu->flags.f.sign = (result & 0x80) ? 1 : 0; // Set sign flag if the result is negative
+    cpu->flags.f.zero = (result == 0) ? 1 : 0; // Set zero flag if the result is zero
+    cpu->flags.f.parity = !(POPCNT(result) & 1); // Set parity flag based on the result
+    /* Note: DCR does not affect the carry flag */
+}
+
+void mvi_e_d8_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(value);
+ 
+    const uint8_t d8 = cpu_read_memory(cpu, curr_pc + 1); // Read the immediate value
+    cpu->E.value = d8; // Move the value into register E
+}
+
+void rar_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+ 
+    const uint8_t lsb = cpu->A.value & 0x01; // Get the least significant bit
+    const uint8_t carry_in = cpu->flags.f.carry; // Get the current carry flag
+    
+    cpu->A.value = ((cpu->A.value >> 1) | (carry_in << 7)) & 0xFF; // Rotate right and wrap around
+    cpu->flags.f.carry = lsb; // Set the carry flag to the original LSB
+}
+
+void lxi_h_d16_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(value);
+
+    const uint8_t d8_low = cpu_read_memory(cpu, curr_pc + 1); // Read the lower byte
+    const uint8_t d8_high = cpu_read_memory(cpu, curr_pc + 2); // Read the higher byte
+    const uint16_t d16 = MAKE_WORD(d8_high, d8_low); // Combine to form the 16-bit value
+
+    cpu->H.value = HIGH_BYTE(d16); // Move the higher byte into register H
+    cpu->L.value = LOW_BYTE(d16);  // Move the lower byte into register L
+}
+
+void shld_a16_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+    
+    const uint16_t addr = MAKE_WORD(cpu_read_memory(cpu, curr_pc + 2), cpu_read_memory(cpu, curr_pc + 1)); // Get the 16-bit address from the instruction
+    
+    cpu_write_memory(cpu, addr, cpu->L.value); // Store the value of L at the lower byte of the address
+    cpu_write_memory(cpu, addr + 1, cpu->H.value); // Store the value of H at the higher byte of the address
+}
+
+void inx_h_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    uint16_t hl = MAKE_WORD(cpu->H.value, cpu->L.value); // Get the current value of HL
+    hl = (hl + 1) & 0xFFFF; // Increment HL and wrap around at 16 bits
+    
+    cpu->H.value = HIGH_BYTE(hl); // Update register H with the new higher byte
+    cpu->L.value = LOW_BYTE(hl);  // Update register L with the new lower byte
+}
+
+void inr_h_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    const uint8_t result = (cpu->H.value + 1) & 0xFF; // Increment H and wrap around at 8 bits
+
+    cpu->flags.f.auxiliary_carry = ((cpu->H.value & 0x0F) + 1) > 0x0F ? 1 : 0; // Set auxiliary carry flag
+    cpu->H.value = result; // Store the result back in H
+    cpu->flags.f.sign = (result & 0x80) ? 1 : 0; // Set sign flag if the result is negative
+    cpu->flags.f.zero = (result == 0) ? 1 : 0; // Set zero flag if the result is zero
+    cpu->flags.f.parity = !(POPCNT(result) & 1); // Set parity flag based on the result
+    /* Note: INR does not affect the carry flag */
+}
+
+void dcr_h_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+ 
+    const uint8_t result = (cpu->H.value - 1) & 0xFF; // Decrement H and wrap around at 8 bits
+    
+    cpu->flags.f.auxiliary_carry = ((cpu->H.value & 0x0F) == 0) ? 1 : 0; // Set auxiliary carry flag if borrow from bit 4
+    cpu->H.value = result; // Store the result back in H
+    cpu->flags.f.sign = (result & 0x80) ? 1 : 0; // Set sign flag if the result is negative
+    cpu->flags.f.zero = (result == 0) ? 1 : 0; // Set zero flag if the result is zero
+    cpu->flags.f.parity = !(POPCNT(result) & 1); // Set parity flag based on the result
+    /* Note: DCR does not affect the carry flag */
+}
+
+void mvi_h_d8_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(value);
+ 
+    const uint8_t d8 = cpu_read_memory(cpu, curr_pc + 1); // Read the immediate value
+    cpu->H.value = d8; // Move the value into register H
+}
+
+void daa_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    const uint8_t a = cpu->A.value;
+    uint8_t correction = 0;
+
+    if ((a & 0x0F) > 9 || cpu->flags.f.auxiliary_carry) {
+        correction |= 0x06; /* Adjust lower nibble */
+    }
+
+    if (a > 0x99 || cpu->flags.f.carry) {
+        correction |= 0x60; /* Adjust upper nibble */
+    }
+
+    const uint16_t result = a + correction;
+
+    cpu->A.value = (uint8_t)(result & 0xFF);
+    cpu->flags.f.sign = (cpu->A.value & 0x80) ? 1 : 0;
+    cpu->flags.f.zero = (cpu->A.value == 0) ? 1 : 0;
+    cpu->flags.f.parity = !(POPCNT(cpu->A.value) & 1);
+    cpu->flags.f.carry = (result > 0xFF) ? 1 : 0;
+    cpu->flags.f.auxiliary_carry = ((a & 0x0F) + (correction & 0x0F)) > 0x0F ? 1 : 0;
+}
+
+void dad_h_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+    
+    uint32_t hl = MAKE_WORD(cpu->H.value, cpu->L.value); // Get the current value of HL
+    uint32_t hl_result = hl + hl; // Add HL to itself (HL * 2)
+    
+    cpu->H.value = HIGH_BYTE(hl_result); // Update register H with the new higher byte
+    cpu->L.value = LOW_BYTE(hl_result);  // Update register L with the new lower byte
+    cpu->flags.f.carry = (hl_result > 0xFFFF) ? 1 : 0; // Set carry flag if result exceeds 16 bits
+}
+
+void lhld_a16_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+    
+    const uint16_t addr = MAKE_WORD(cpu_read_memory(cpu, curr_pc + 2), cpu_read_memory(cpu, curr_pc + 1)); // Get the 16-bit address from the instruction
+
+    cpu->L.value = cpu_read_memory(cpu, addr); // Load the value at the lower byte of the address into L
+    cpu->H.value = cpu_read_memory(cpu, addr + 1); // Load the value at the higher byte of the address into H
+}
+
+void dcx_h_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    uint16_t hl = MAKE_WORD(cpu->H.value, cpu->L.value); // Get the current value of HL
+    hl = (hl - 1) & 0xFFFF; // Decrement HL and wrap around at 16 bits
+
+    cpu->H.value = HIGH_BYTE(hl); // Update register H with the new higher byte
+    cpu->L.value = LOW_BYTE(hl);  // Update register L with the new lower byte
+}
+
+void inr_l_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    const uint8_t result = (cpu->L.value + 1) & 0xFF; // Increment L and wrap around at 8 bits
+    
+    cpu->flags.f.auxiliary_carry = ((cpu->L.value & 0x0F) + 1) > 0x0F ? 1 : 0; // Set auxiliary carry flag
+    cpu->L.value = result; // Store the result back in L
+    cpu->flags.f.sign = (result & 0x80) ? 1 : 0; // Set sign flag if the result is negative
+    cpu->flags.f.zero = (result == 0) ? 1 : 0; // Set zero flag if the result is zero
+    cpu->flags.f.parity = !(POPCNT(result) & 1); // Set parity flag based on the result
+    /* Note: INR does not affect the carry flag */
+}
+
+void dcr_l_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+ 
+    const uint8_t result = (cpu->L.value - 1) & 0xFF; // Decrement L and wrap around at 8 bits
+    
+    cpu->flags.f.auxiliary_carry = ((cpu->L.value & 0x0F) == 0) ? 1 : 0; // Set auxiliary carry flag if borrow from bit 4
+    cpu->L.value = result; // Store the result back in L
+    cpu->flags.f.sign = (result & 0x80) ? 1 : 0; // Set sign flag if the result is negative
+    cpu->flags.f.zero = (result == 0) ? 1 : 0; // Set zero flag if the result is zero
+    cpu->flags.f.parity = !(POPCNT(result) & 1); // Set parity flag based on the result
+    /* Note: DCR does not affect the carry flag */
+}
+
+void mvi_l_d8_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(value);
+
+    const uint8_t d8 = cpu_read_memory(cpu, curr_pc + 1); // Read the immediate value
+    cpu->L.value = d8; // Move the value into register L
+}
+
+void cma_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    cpu->A.value = ~cpu->A.value; // Complement the value in register A
+}
+
+void lxi_sp_d16_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(value);
+ 
+    const uint8_t d8_low = cpu_read_memory(cpu, curr_pc + 1); // Read the lower byte
+    const uint8_t d8_high = cpu_read_memory(cpu, curr_pc + 2); // Read the higher byte
+    const uint16_t d16 = MAKE_WORD(d8_high, d8_low); // Combine to form the 16-bit value
+    
+    cpu->SP.value = d16; // Load the 16-bit value into the stack pointer
+}
+
+void sta_a16_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+ 
+    const uint16_t addr = MAKE_WORD(cpu_read_memory(cpu, curr_pc + 2), cpu_read_memory(cpu, curr_pc + 1)); // Get the 16-bit address from the instruction
+    
+    cpu_write_memory(cpu, addr, cpu->A.value); // Store the value of A at the specified address
+}
+
+void inx_sp_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+ 
+    cpu->SP.value = (cpu->SP.value + 1) & 0xFFFF; // Increment the stack pointer and wrap around at 16 bits
+}
+
+void inr_m_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+ 
+    const uint16_t addr = MAKE_WORD(cpu->H.value, cpu->L.value); // Get the address from HL
+    const uint8_t mem_value = cpu_read_memory(cpu, addr); // Read the value at the address
+    const uint8_t result = (mem_value + 1) & 0xFF; // Increment the memory value and wrap around at 8 bits
+
+    cpu->flags.f.auxiliary_carry = ((mem_value & 0x0F) + 1) > 0x0F ? 1 : 0; // Set auxiliary carry flag
+    cpu_write_memory(cpu, addr, result); // Store the result back in memory
+    cpu->flags.f.sign = (result & 0x80) ? 1 : 0; // Set sign flag if the result is negative
+    cpu->flags.f.zero = (result == 0) ? 1 : 0; // Set zero flag if the result is zero
+    cpu->flags.f.parity = !(POPCNT(result) & 1); // Set parity flag based on the result
+    /* Note: INR M does not affect the carry flag */
+}
+
+void dcr_m_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    const uint16_t addr = MAKE_WORD(cpu->H.value, cpu->L.value); // Get the address from HL
+    const uint8_t mem_value = cpu_read_memory(cpu, addr); // Read the value at the address
+    const uint8_t result = (mem_value - 1) & 0xFF; // Decrement the memory value and wrap around at 8 bits
+    
+    cpu->flags.f.auxiliary_carry = ((mem_value & 0x0F) == 0) ? 1 : 0; // Set auxiliary carry flag if borrow from bit 4
+    cpu_write_memory(cpu, addr, result); // Store the result back in memory
+    cpu->flags.f.sign = (result & 0x80) ? 1 : 0; // Set sign flag if the result is negative
+    cpu->flags.f.zero = (result == 0) ? 1 : 0; // Set zero flag if the result is zero
+    cpu->flags.f.parity = !(POPCNT(result) & 1); // Set parity flag based on the result
+    /* Note: DCR M does not affect the carry flag */
+}
+
+void mvi_m_d8_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(value);
+ 
+    const uint16_t addr = MAKE_WORD(cpu->H.value, cpu->L.value); // Get the address from HL
+    const uint8_t d8 = cpu_read_memory(cpu, curr_pc + 1); // Read the immediate value
+    
+    cpu_write_memory(cpu, addr, d8); // Move the value into memory at the address in HL
+}
+
+void stc_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+
+    cpu->flags.f.carry = 1; // Set the carry flag
+}
+
+void dad_sp_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+    UNUSED_PARAM(curr_pc);
+    UNUSED_PARAM(value);
+ 
+    uint32_t hl = MAKE_WORD(cpu->H.value, cpu->L.value); // Get the current value of HL
+    uint32_t sp = cpu->SP.value; // Get the current value of SP
+    const uint32_t result = hl + sp; // Add SP to HL
+    
+    cpu->H.value = HIGH_BYTE(result); // Update register H with the new higher byte
+    cpu->L.value = LOW_BYTE(result);  // Update register L with the new lower byte
+    cpu->flags.f.carry = (result > 0xFFFF) ? 1 : 0; // Set carry flag if result exceeds 16 bits
+}
+
+void lda_a16_handler(CPU* cpu, uint16_t curr_pc, void* value) {
+
 }
 
 void hlt_handler(CPU* cpu, uint16_t curr_pc, void* value) {
@@ -592,12 +1128,346 @@ void call_addr_handler(CPU* cpu, uint16_t curr_pc, void* value) {
 } while (0)
 
 /** ***********************************************************************************************
+ * C <- C + 1
+ * Increments the C register by 1 and updates the flags accordingly.
+ *************************************************************************************************/
+#define INR_C(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x0C); /* INR C opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * C <- C - 1
+ * Decrements the C register by 1 and updates the flags accordingly.
+ *************************************************************************************************/
+#define DCR_C(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x0D); /* DCR C opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
  * C <- #d8
  * Loads an 8-bit immediate value into the C register.
  *************************************************************************************************/
 #define MVI_C(cpu, offset, value) do { \
     cpu_write_memory(cpu, offset++, 0x0E); /* MVI C,d8 opcode */ \
     cpu_write_memory(cpu, offset++, value); /* d8 value */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * A = A >> 1
+ * Rotates the bits in the A register to the right.
+ * The least significant bit is moved to the most and also stored in the carry flag.
+ *************************************************************************************************/
+#define RRC(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x0F); /* RRC opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * DE <- #d16
+ * Loads a 16-bit immediate value into the DE register pair.
+ *************************************************************************************************/
+#define LXI_D(cpu, offset, value) do { \
+    cpu_write_memory(cpu, offset++, 0x11); /* LXI D,d16 opcode */ \
+    cpu_write_memory(cpu, offset++, LOW_BYTE(value)); /* Lower byte of d16 value */ \
+    cpu_write_memory(cpu, offset++, HIGH_BYTE(value)); /* Higher byte of d16 value */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * [DE] <- A
+ * Stores the value of register A into the memory address pointed to by the DE register pair.
+ *************************************************************************************************/
+#define STAX_D(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x12); /* STAX D opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * DE <- DE + 1
+ * Increments the DE register pair by 1.
+ *************************************************************************************************/
+#define INX_D(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x13); /* INX D opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * D <- D + 1
+ * Increments the D register by 1 and updates the flags accordingly.
+ *************************************************************************************************/
+#define INR_D(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x14); /* INR D opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * D <- D - 1
+ * Decrements the D register by 1 and updates the flags accordingly.
+ *************************************************************************************************/
+#define DCR_D(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x15); /* DCR D opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * D <- #d8
+ * Loads an 8-bit immediate value into the D register.
+ *************************************************************************************************/
+#define MVI_D(cpu, offset, value) do { \
+    cpu_write_memory(cpu, offset++, 0x16); /* MVI D,d8 opcode */ \
+    cpu_write_memory(cpu, offset++, value); /* d8 value */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * A = (A << 1) | Carry
+ * Rotates the bits in the A register to the left through the carry flag.
+ * The most significant bit is moved to the least and also stored in the carry flag.
+ *************************************************************************************************/
+#define RAL(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x17); /* RAL opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * HL <- HL + DE
+ * Adds the DE register pair to the HL register pair and updates the carry flag.
+ *************************************************************************************************/
+#define DAD_D(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x19); /* DAD D opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * A <- [DE]
+ * Loads the value from the memory address pointed to by the DE register pair into register A.
+ *************************************************************************************************/
+#define LDAX_D(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x1A); /* LDAX D opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * DE <- DE - 1
+ * Decrements the DE register pair by 1.
+ *************************************************************************************************/
+#define DCX_D(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x1B); /* DCX D opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * E <- E + 1
+ * Increments the E register by 1 and updates the flags accordingly.
+ *************************************************************************************************/
+#define INR_E(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x1C); /* INR E opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * E <- E - 1
+ * Decrements the E register by 1 and updates the flags accordingly.
+ *************************************************************************************************/
+#define DCR_E(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x1D); /* DCR E opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * E <- #d8
+ * Loads an 8-bit immediate value into the E register.
+ *************************************************************************************************/
+#define MVI_E(cpu, offset, value) do { \
+    cpu_write_memory(cpu, offset++, 0x1E); /* MVI E,d8 opcode */ \
+    cpu_write_memory(cpu, offset++, value); /* d8 value */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * A = (A >> 1) | (Carry << 7)
+ * Rotates the bits in the A register to the right through the carry flag.
+ * The least significant bit is moved to the most and also stored in the carry flag.
+ *************************************************************************************************/
+#define RAR(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x1F); /* RAR opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * HL <- #d16
+ * Loads a 16-bit immediate value into the HL register pair.
+ *************************************************************************************************/
+#define LXI_H(cpu, offset, value) do { \
+    cpu_write_memory(cpu, offset++, 0x21); /* LXI H,d16 opcode */ \
+    cpu_write_memory(cpu, offset++, LOW_BYTE(value)); /* Lower byte of d16 value */ \
+    cpu_write_memory(cpu, offset++, HIGH_BYTE(value)); /* Higher byte of d16 value */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * [a16] <- L, [a16+1] <- H
+ * Stores the value of register L at the memory address specified by a16 and the value of register H at the next address.
+ *************************************************************************************************/
+#define SHLD(cpu, offset, addr) do { \
+    cpu_write_memory(cpu, offset++, 0x22); /* SHLD a16 opcode */ \
+    cpu_write_memory(cpu, offset++, LOW_BYTE(addr)); /* Lower byte of a16 address */ \
+    cpu_write_memory(cpu, offset++, HIGH_BYTE(addr)); /* Higher byte of a16 address */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * HL <- HL + 1
+ * Increments the HL register pair by 1.
+ *************************************************************************************************/
+#define INX_H(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x23); /* INX H opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * H <- H + 1
+ * Increments the H register by 1 and updates the flags accordingly.
+ *************************************************************************************************/
+#define INR_H(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x24); /* INR H opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * H <- H - 1
+ * Decrements the H register by 1 and updates the flags accordingly.
+ *************************************************************************************************/
+#define DCR_H(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x25); /* DCR H opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * H <- #d8
+ * Loads an 8-bit immediate value into the H register.
+ *************************************************************************************************/
+#define MVI_H(cpu, offset, value) do { \
+    cpu_write_memory(cpu, offset++, 0x26); /* MVI H,d8 opcode */ \
+    cpu_write_memory(cpu, offset++, value); /* d8 value */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * Adjusts the value in register A to a valid BCD representation after an addition operation.
+ * This instruction is typically used after adding two BCD numbers to correct the result.
+ *************************************************************************************************/
+#define DAA(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x27); /* DAA opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * HL <- HL + HL
+ * Adds the HL register pair to itself and updates the carry flag.
+ *************************************************************************************************/
+#define DAD_H(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x29); /* DAD H opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * HL <- [a16]
+ * Loads the value from the memory address specified by a16 into the HL register pair.
+ *************************************************************************************************/
+#define LHLD(cpu, offset, addr) do { \
+    cpu_write_memory(cpu, offset++, 0x2A); /* LHLD a16 opcode */ \
+    cpu_write_memory(cpu, offset++, LOW_BYTE(addr)); /* Lower byte of a16 address */ \
+    cpu_write_memory(cpu, offset++, HIGH_BYTE(addr)); /* Higher byte of a16 address */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * HL <- HL - 1
+ * Decrements the HL register pair by 1.
+ *************************************************************************************************/
+#define DCX_H(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x2B); /* DCX H opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * L <- L + 1
+ * Increments the L register by 1 and updates the flags accordingly.
+ *************************************************************************************************/
+#define INR_L(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x2C); /* INR L opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * L <- L - 1
+ * Decrements the L register by 1 and updates the flags accordingly.
+ *************************************************************************************************/
+#define DCR_L(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x2D); /* DCR L opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * L <- #d8
+ * Loads an 8-bit immediate value into the L register.
+ *************************************************************************************************/
+#define MVI_L(cpu, offset, value) do { \
+    cpu_write_memory(cpu, offset++, 0x2E); /* MVI L,d8 opcode */ \
+    cpu_write_memory(cpu, offset++, value); /* d8 value */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * A <- ~A
+ * Complements the value in register A (bitwise NOT).
+ *************************************************************************************************/
+#define CMA(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x2F); /* CMA opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * SP <- #d16
+ * Loads a 16-bit immediate value into the stack pointer register.
+ *************************************************************************************************/
+#define LXI_SP(cpu, offset, value) do { \
+    cpu_write_memory(cpu, offset++, 0x31); /* LXI SP,d16 opcode */ \
+    cpu_write_memory(cpu, offset++, LOW_BYTE(value)); /* Lower byte of d16 value */ \
+    cpu_write_memory(cpu, offset++, HIGH_BYTE(value)); /* Higher byte of d16 value */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * [a16] <- A
+ * Stores the value of register A into the memory address specified by a16.
+ *************************************************************************************************/
+#define STA(cpu, offset, addr) do { \
+    cpu_write_memory(cpu, offset++, 0x32); /* STA a16 opcode */ \
+    cpu_write_memory(cpu, offset++, LOW_BYTE(addr)); /* Lower byte of a16 address */ \
+    cpu_write_memory(cpu, offset++, HIGH_BYTE(addr)); /* Higher byte of a16 address */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * SP <- SP + 1
+ * Increments the stack pointer register by 1.
+ *************************************************************************************************/
+#define INX_SP(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x33); /* INX SP opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * M <- M + 1
+ * Increments the value at the memory address pointed to by the HL register pair by 1.
+ * Updates the flags accordingly.
+ *************************************************************************************************/
+#define INR_M(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x34); /* INR M opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * M <- M - 1
+ * Decrements the value at the memory address pointed to by the HL register pair by 1.
+ * Updates the flags accordingly.
+ *************************************************************************************************/
+#define DCR_M(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x35); /* DCR M opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * M <- #d8
+ * Loads an 8-bit immediate value into the memory address pointed to by the HL register pair.
+ *************************************************************************************************/
+#define MVI_M(cpu, offset, value) do { \
+    cpu_write_memory(cpu, offset++, 0x36); /* MVI M,d8 opcode */ \
+    cpu_write_memory(cpu, offset++, value); /* d8 value */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * C <- 1
+ * Sets the carry flag to 1.
+ *************************************************************************************************/
+#define STC(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x37); /* STC opcode */ \
+} while (0)
+
+/** ***********************************************************************************************
+ * HL <- HL + SP
+ * Adds the stack pointer to the HL register pair and updates the carry flag.
+ *************************************************************************************************/
+#define DAD_SP(cpu, offset) do { \
+    cpu_write_memory(cpu, offset++, 0x39); /* DAD SP opcode */ \ \
 } while (0)
 
 /** ***********************************************************************************************
@@ -676,7 +1546,6 @@ int main(void) {
 
     // halt the program
     HLT(&cpu, offset);
-
 
 
 
